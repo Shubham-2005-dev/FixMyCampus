@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FixMyCampus - Sign In</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* ---------- CSS VARIABLES ---------- */
+    :root {
+      --bg-gradient: linear-gradient(135deg, #667eea, #764ba2);
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --text-color: #333;
+      --subtext-color: #666;
+      --footer-bg: rgba(255, 255, 255, 0.85);
+      --btn-bg: #4285f4;
+      --btn-hover: #3367d6;
+    }
+
+    body.dark {
+      --bg-gradient: linear-gradient(135deg, #1e1e2f, #121212);
+      --card-bg: rgba(30, 30, 30, 0.9);
+      --text-color: #f1f1f1;
+      --subtext-color: #bbb;
+      --footer-bg: rgba(20, 20, 20, 0.9);
+      --btn-bg: #5c7cfa;
+      --btn-hover: #4c6ef5;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      color: var(--text-color);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .login-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      padding: 45px 35px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      text-align: center;
+      max-width: 420px;
+      width: 100%;
+      animation: slideUp 0.8s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.6em;
+    }
+
+    .tagline {
+      margin: 15px 0 35px;
+      font-size: 1.05em;
+      color: var(--subtext-color);
+      line-height: 1.5;
+    }
+
+    #loginBtn {
+      width: 100%;
+      background-color: var(--btn-bg);
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 30px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+    }
+
+    #loginBtn:hover {
+      background-color: var(--btn-hover);
+      transform: translateY(-2px);
+    }
+
+    /* ---------- DARK MODE TOGGLE ---------- */
+    .toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      font-size: 18px;
+      background: var(--card-bg);
+      padding: 10px 14px;
+      border-radius: 50px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: background 0.3s;
+    }
+
+    footer {
+      text-align: center;
+      padding: 12px;
+      background: var(--footer-bg);
+      font-size: 14px;
+      color: var(--subtext-color);
+      transition: background 0.3s;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.2em; }
+      .login-card { padding: 35px 25px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Dark Mode Toggle -->
+  <div class="toggle" id="themeToggle">
+    <i class="fa-solid fa-moon"></i>
+  </div>
+
+  <div class="container">
+    <div class="login-card">
+      <h1><i class="fa-solid fa-school"></i> FixMyCampus</h1>
+      <p class="tagline">
+        Report campus issues, track resolutions, and help build a better student experience.
+      </p>
+      <button id="loginBtn">
+        <i class="fa-brands fa-google"></i> Sign in with Google
+      </button>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 FixMyCampus | Empowering students to improve their campus</p>
+  </footer>
+
+  <!-- Firebase Auth -->
+  <script type="module" src="./auth.js"></script>
+
+  <!-- Dark Mode Script -->
+  <script>
+    const toggle = document.getElementById("themeToggle");
+    const body = document.body;
+    const icon = toggle.querySelector("i");
+
+    // Load saved theme
+    if (localStorage.getItem("theme") === "dark") {
+      body.classList.add("dark");
+      icon.classList.replace("fa-moon", "fa-sun");
+    }
+
+    toggle.addEventListener("click", () => {
+      body.classList.toggle("dark");
+
+      const isDark = body.classList.contains("dark");
+      icon.classList.toggle("fa-moon", !isDark);
+      icon.classList.toggle("fa-sun", isDark);
+
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    });
+  </script>
+
+</body>
+</html>
